@@ -1,0 +1,19 @@
+# pyCI configuration
+# Add new Build configurations with this format
+
+# start_config
+# config.build_success=
+# config.build_failed=
+# config.vcs_error=
+
+# new_repo
+# repo.url=
+# repo.name=
+# repo.step0=
+# repo.step1=
+
+# new_repo
+# repo.url=
+# repo.name=
+# repo.step0=
+# repo.step1=
