@@ -26,6 +26,7 @@ user and group `www-data`.
 * create a symbolic link to the server file in `/etc/nginx/sites-enabled`
 * configure the server
 
+<b></b>
 
     server {
     	listen      80;
