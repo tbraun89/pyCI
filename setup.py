@@ -52,7 +52,7 @@ class CreateCustomFilesCommand(install):
 setup(
     name='py-ci',
     version=pyCI.VERSION,
-    packages=['pyCI', 'pyCI.html', 'pyCI.util', 'pyCI.html.sites'],
+    packages=['pyCI', 'pyCI.html', 'pyCI.util', 'pyCI.html.sites', 'pyCI.html.helper'],
     scripts=['bin/pyci.cgi', 'bin/pyci'],
     url='',
     license='GPLv2',
