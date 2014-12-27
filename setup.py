@@ -43,6 +43,7 @@ class CreateCustomFilesCommand(install):
             shutil.copyfile('public/jquery.js', '/var/www/pyci/jquery.js')
             shutil.copyfile('public/pyci.js', '/var/www/pyci/pyci.js')
             shutil.copyfile('public/pyci.css', '/var/www/pyci/pyci.css')
+            shutil.copyfile('public/favicon.ico', '/var/www/pyci/favicon.ico')
             call(['chown', '-R', 'www-data:www-data', '/var/www/pyci'])
 
         install.run(self)
