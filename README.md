@@ -1,6 +1,16 @@
 # pyCI - a minimal CI server
 
-pyCI is a minimal CI server with an web interface.
+pyCI is a minimal CI server with web interface and a commandline
+runner for small systems like `A10-OLinuXino-LIME` or `Raspberry Pi`
+that have not much resources.
+
+The server monitors the Git repositories of your configured projects
+and starts a new build if there was a change. If the return value of
+a build step is not `0` or there are messages logged in `stderr` the
+build will fail.
+
+All logs of `stdout` and `stderr` are stored for each build an can be
+displayed in the web interface.
 
 ## Requirements
 
