@@ -42,7 +42,7 @@ user and group `www-data`.
     	    fastcgi_param SCRIPT_FILENAME /usr/local/bin/pyci.cgi;
     	    fastcgi_param PATH_INFO $uri;
     	    fastcgi_param QUERY_STRING $args;
-	       }
+	    }
     }
 
 ## Configuration
