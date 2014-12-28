@@ -39,13 +39,12 @@ options, _ = parser.parse_args()
 
 
 def main():
-    logger.info('Starting pyCI with "{0}."'.format(options.config_file))
     db = DB(options.database)
 
     try:
         config = tokenize_config(options.config_file)
     except IOError:
-        logger.error('Config gile "{0}" not found.'.format(options.config_file))
+        logger.error('Config file "{0}" not found.'.format(options.config_file))
         logger.critical('Exiting: {0}.'.format(os.strerror(int(errno.EIO))))
         exit(errno.EIO)
 
