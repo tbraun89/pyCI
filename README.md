@@ -68,7 +68,8 @@ The configuration is stored in `/etc/pycirc` with an example.
     
     new_repo                           start a new project configuration section
     repo.url=URL_TO_GIT                url to the remote git repository
+    repo.branch=BRANCH                 the branch that should be used (default: master)
     repo.name=My Project               unique name of the project
     repo.step0=command                 "command" executed in the first build step
-    repo.step1=command                 "command" executed in the second build srep
+    repo.step1=command                 "command" executed in the second build step
     repo.step2=...

@@ -27,7 +27,6 @@ from pyCI.util import DB
 logger = get_logger('repository.py')
 
 
-# TODO add branch support
 class Repository:
     UNKNOWN = 0
     VCS_ERROR = 1
@@ -41,6 +40,7 @@ class Repository:
         self.steps = []
         self.work_dir = tempfile.mkdtemp()
         self.log = ''
+        self.branch = 'master'
 
     def add_step(self, step):
         self.steps.append(step)
@@ -48,7 +48,7 @@ class Repository:
     def execute(self):
         self.db.add_project(self.name, '', Repository.UNKNOWN)
 
-        process = subprocess.Popen('git ls-remote --heads ' + self.url,
+        process = subprocess.Popen('git ls-remote --heads {0} {1}'.format(self.url, self.branch),
                                    shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = process.communicate()
         ret_val = process.returncode
@@ -86,14 +86,14 @@ class Repository:
 
     def __git_clone__(self):
         logger.info('{0} has changed.'.format(self.name))
-        logger.info('Cloning repository "{0}" to "{1}".'.format(self.url, self.work_dir))
-        process = subprocess.Popen('git clone --depth=1 {0} .'.format(self.url), cwd=self.work_dir,
-                                   shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        logger.info('Cloning branch "{2}" of repository "{0}" to "{1}".'.format(self.url, self.work_dir, self.branch))
+        process = subprocess.Popen('git clone --depth=1 --branch {1} {0} .'.format(self.url, self.branch),
+                                   cwd=self.work_dir, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         process.communicate()
         ret_val = process.returncode
 
         if ret_val != 0:
-            logger.error('Can not clone repository "{0}".'.format(self.name))
+            logger.error('Can not clone branch "{1}" of repository "{0}".'.format(self.name, self.branch))
             logger.error('Connection to repository "{0}" refused.'.format(self.url))
             self.log += 'Can not clone repository from {0}.\n'.format(self.url)
             self.db.update_status(self.name, Repository.VCS_ERROR)
@@ -128,6 +128,7 @@ def create_repository_list(config, database):
     repo_url = None
     repo_name = None
     repo_step = None
+    repo_branch = None
 
     for token in config:
         if token == 'new_repo':
@@ -137,11 +138,14 @@ def create_repository_list(config, database):
             current.url = token
         elif repo_name:
             current.name = token
+        elif repo_branch:
+            current.branch = token
         elif repo_step is not None:
             current.add_step((repo_step, token))
 
         repo_url = (token == 'repo.url')
         repo_name = (token == 'repo.name')
+        repo_branch = (token == 'repo.branch')
 
         try:
             repo_step = int(re.match('^repo.step(\d+)$', token).group(1))
