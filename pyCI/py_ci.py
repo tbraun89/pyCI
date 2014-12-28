@@ -25,7 +25,7 @@ from pyCI import build_success_command, build_failed_command, vcs_error_command
 from pyCI import Repository, create_repository_list
 
 
-VERSION = '0.0.1'
+VERSION = '0.0.2'
 
 
 logger = get_logger('py_ci.py')
