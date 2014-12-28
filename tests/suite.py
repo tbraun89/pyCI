@@ -32,5 +32,8 @@ all_tests = unittest.TestSuite([
 
 
 if __name__ == '__main__':
-    runner = unittest.TextTestRunner(verbosity=2)
-    runner.run(all_tests)
+    runner = unittest.TextTestRunner(verbosity=2, stream=sys.stdout)
+    result = runner.run(all_tests)
+
+    if len(result.errors) > 0 or len(result.failures) > 0:
+        sys.exit(-1)
