@@ -15,7 +15,15 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-from log import get_logger, rf_handler
-from config import tokenize_config
-from db import DB
-from slug import slugify
+import unicodedata
+import re
+
+
+def slugify(value):
+    if isinstance(value, unicode):
+        value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore').decode('ascii')
+
+    value = re.sub('[^\w\s-]', '', value).strip().lower()
+    value = re.sub('[-\s]+', '-', value)
+
+    return value

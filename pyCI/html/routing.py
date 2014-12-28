@@ -16,6 +16,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 from sites import index, invalid, project
+from helper import badges
 
 
 def route_to(route):
@@ -23,6 +24,8 @@ def route_to(route):
 
     if route[1] == '':
         return index.page()
+    elif len(route) >= 4 and route[1] == 'project' and route[3] == 'badge.svg':
+        return badges.image(route)
     elif route[1] == 'project':
         return project.page(route)
 

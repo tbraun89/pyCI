@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # pyCI
 # Copyright (C) 2014  Torsten Braun
 #
@@ -15,7 +17,21 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-from log import get_logger, rf_handler
-from config import tokenize_config
-from db import DB
-from slug import slugify
+import unittest
+
+from pyCI.util import slug
+
+
+class TestSlugify(unittest.TestCase):
+    def runTest(self):
+        self.assertEquals(slug.slugify('This is a Test'), 'this-is-a-test')
+        self.assertEquals(slug.slugify('1 2 34'), '1-2-34')
+        self.assertEquals(slug.slugify('Project (master branch)'), 'project-master-branch')
+        self.assertEquals(slug.slugify('!"$%&/()=?A!"$%&/()=?`B*+~\'#<>|,;.:-_C'), 'ab-_c')
+        self.assertEquals(slug.slugify(u'German ÜÄÖöäü Project [master]'), 'german-uaooau-project-master')
+
+
+def suite():
+    my_suite = unittest.TestSuite()
+    my_suite.addTest(TestSlugify())
+    return my_suite

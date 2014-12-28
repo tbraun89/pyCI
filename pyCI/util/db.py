@@ -18,6 +18,8 @@
 import sqlite3
 from datetime import datetime
 
+from slug import slugify
+
 
 class DB:
     def __init__(self, database_file):
@@ -26,7 +28,7 @@ class DB:
         with self.connection:
             cur = self.connection.cursor()
             cur.execute('''
-CREATE TABLE IF NOT EXISTS project_infos(name TEXT PRIMARY KEY, git_id TEXT, status INT, date TEXT)
+CREATE TABLE IF NOT EXISTS project_infos(name TEXT PRIMARY KEY, git_id TEXT, status INT, date TEXT, slug TEXT)
 ''')
             cur.execute('''
 CREATE TABLE IF NOT EXISTS project_logs(log TEXT, project_name TEXT, date TEXT)
@@ -37,8 +39,8 @@ CREATE TABLE IF NOT EXISTS project_logs(log TEXT, project_name TEXT, date TEXT)
         with self.connection:
             cur = self.connection.cursor()
             cur.execute('''
-INSERT OR IGNORE INTO project_infos (name, git_id, status, date) VALUES("{0}", "{1}", {2}, "{3}")
-'''.format(name, git_id, status, datetime.now().strftime("%Y-%m-%d %H:%M")))
+INSERT OR IGNORE INTO project_infos (name, git_id, status, date, slug) VALUES("{0}", "{1}", {2}, "{3}", "{4}")
+'''.format(name, git_id, status, datetime.now().strftime("%Y-%m-%d %H:%M")), slugify(name))
             self.connection.commit()
 
     def add_log(self, name, message):
@@ -86,3 +88,19 @@ UPDATE project_infos SET status={0}, date="{2}" WHERE name="{1}"
             self.connection.commit()
 
             return cur.fetchall()
+
+    def project_slug_by_name(self, name):
+        with self.connection:
+            cur = self.connection.cursor()
+            cur.execute('SELECT slug FROM project_infos WHERE name="{0}"'.format(name))
+            self.connection.commit()
+
+            return cur.fetchone()[0]
+
+    def project_status_by_slug(self, slug):
+        with self.connection:
+            cur = self.connection.cursor()
+            cur.execute('SELECT status FROM project_infos WHERE slug="{0}"'.format(slug))
+            self.connection.commit()
+
+            return cur.fetchone()[0]

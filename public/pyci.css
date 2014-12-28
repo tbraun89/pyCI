@@ -154,3 +154,14 @@ h3:hover {
     cursor: pointer;
     color:  gray;
 }
+
+hr {
+    border:           none;
+    height:           1px;
+    color:            #ccc;
+    background-color: #ccc;
+}
+
+.info-section input {
+    width: 300px;
+}

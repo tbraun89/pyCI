@@ -16,6 +16,7 @@ displayed in the web interface.
 
 * Python 2.7.x
 * Python `daemon` library
+* Python `pysqlite` library
 
 ## Installation
 
