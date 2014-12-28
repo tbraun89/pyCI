@@ -27,6 +27,7 @@ from pyCI.util import DB
 logger = get_logger('repository.py')
 
 
+# TODO add branch support
 class Repository:
     UNKNOWN = 0
     VCS_ERROR = 1
