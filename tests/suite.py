@@ -15,7 +15,22 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-from log import get_logger, rf_handler
-from config import tokenize_config
-from db import DB
-from slug import slugify
+import unittest
+import sys
+import os
+sys.path.insert(0, os.path.abspath('..'))
+
+
+from tests.pyCI.html.helper import test_badges
+from tests.pyCI.util import test_slug
+
+
+all_tests = unittest.TestSuite([
+    test_badges.suite(),
+    test_slug.suite()
+])
+
+
+if __name__ == '__main__':
+    runner = unittest.TextTestRunner(verbosity=2)
+    runner.run(all_tests)

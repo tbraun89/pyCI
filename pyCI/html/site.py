@@ -28,6 +28,12 @@ def generate_html():
 
     title, body = route_to(route)
 
+    if title == 'mime::svg':
+        print 'Content-Type: image/svg+xml; charset=UTF-8'
+        print ''
+        print body
+        return
+
     print 'Content-Type: text/html; charset=UTF-8'
     print ''
     print '''<!DOCTYPE HTML>

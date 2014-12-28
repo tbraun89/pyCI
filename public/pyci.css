@@ -154,3 +154,68 @@ h3:hover {
     cursor: pointer;
     color:  gray;
 }
+
+hr {
+    border:           none;
+    height:           1px;
+    color:            #ccc;
+    background-color: #ccc;
+    width:            100;
+}
+
+.section {
+	clear:   both;
+	padding: 0px;
+	margin:  0px;
+}
+
+.col {
+	display: block;
+	float:   left;
+	margin:  1% 0 1% 1.6%;
+}
+.col:first-child {
+    margin-left: 0;
+}
+
+
+.group:before,
+.group:after {
+	content: '';
+	display: table;
+}
+
+.group:after {
+	clear: both;
+}
+
+.group {
+    zoom: 1;
+}
+
+.span_4_of_4 {
+	width: 100%;
+}
+.span_3_of_4 {
+	width: 74.6%;
+}
+.span_2_of_4 {
+	width: 49.2%;
+}
+.span_1_of_4 {
+	width: 23.8%;
+}
+
+.section label {
+    display:     block;
+    color:       blue;
+    font-weight: bold;
+}
+
+.section input {
+    width: 100%;
+}
+
+.section .center {
+    text-align: center;
+}

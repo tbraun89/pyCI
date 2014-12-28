@@ -16,19 +16,50 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import hashlib
+import os
 
 from pyCI.util.db import DB
 
 
-def page(x):
-    title = x[2]
-
+def page(route):
+    title = route[2]
     db = DB('/etc/pyci.db')
-
     body = ''
 
+    slug = db.project_slug_by_name(route[2])
+    host = os.environ.get('HTTP_REFERER', 'http://{0}/'.format(os.environ.get('HTTP_HOST', '')))
+
+    badge_info = '''
+<div class="section group">
+  <div class="col span_1_of_4"></div>
+  <div class="col span_2_of_4 center">
+    <img src="/project/{0}/badge.svg" />
+  </div>
+  <div class="col span_1_of_4"></div>
+</div>
+<div class="section group">
+  <div class="col span_1_of_4">
+    <label>Badge URL:</label>
+    <input type="text" value="{1}project/{0}/badge.svg" />
+  </div>
+  <div class="col span_1_of_4">
+    <label>Markdown</label>
+    <input type="text" value="![pyCI Build Status]({1}project/{0}/badge.svg)" />
+  </div>
+  <div class="col span_1_of_4">
+    <label>Textile</label>
+    <input type="text" value="!{1}project/{0}/badge.svg(pyCI Build Status)" />
+  </div>
+  <div class="col span_1_of_4">
+    <label>AsciiDoc</label>
+    <input type="text" value="#image::{1}project/{0}/badge.svg["pyCI Build Status"]" />
+  </div>
+</div>
+<hr />
+'''.format(slug, host)
+
     try:
-        for log in db.project_log_list(x[2]):
+        for log in db.project_log_list(route[2]):
             body += '<h3 id="{2}">{0} - {1}</h3>'.format(log[2], log[1], hashlib.sha1(log[2]).hexdigest())
             body += '<table id="code_{0}" class="code hidden">'.format(hashlib.sha1(log[2]).hexdigest())
             current_log = log[0].split('\n')
@@ -43,6 +74,8 @@ def page(x):
 <div class="error">
   The project {0} has no logs.
 </div>
-'''.format(x[2])
+'''.format(route[2])
+
+    body = badge_info + body
 
     return title, body

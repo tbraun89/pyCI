@@ -16,6 +16,7 @@ displayed in the web interface.
 
 * Python 2.7.x
 * Python `daemon` library
+* Python `pysqlite` library
 
 ## Installation
 
@@ -73,3 +74,19 @@ The configuration is stored in `/etc/pycirc` with an example.
     repo.step0=command                 "command" executed in the first build step
     repo.step1=command                 "command" executed in the second build step
     repo.step2=...
+
+## Running the Tests
+
+To run the tests you just have to change to the test folder and run the `suite.py` file.
+
+    cd tests
+    python suite.py
+
+## Contributing
+
+1. Fork it (https://github.com/tbraun89/pyCI/fork)
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Add your feature and don't forget the tests
+4. Commit your changes (`git commit -am 'Add some feature'`)
+5. Push to the branch (`git push origin my-new-feature`)
+6. Create a Pull Request
