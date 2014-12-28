@@ -38,10 +38,14 @@ CREATE TABLE IF NOT EXISTS project_logs(log TEXT, project_name TEXT, date TEXT)
     def add_project(self, name, git_id, status):
         with self.connection:
             cur = self.connection.cursor()
-            cur.execute('''
-INSERT OR IGNORE INTO project_infos (name, git_id, status, date, slug) VALUES("{0}", "{1}", {2}, "{3}", "{4}")
-'''.format(name, git_id, status, datetime.now().strftime("%Y-%m-%d %H:%M")), slugify(name))
+            cur.execute('SELECT * FROM project_infos WHERE name="{0}"'.format(name))
             self.connection.commit()
+
+            if len(cur.fetchall()) == 0:
+                cur.execute('''
+INSERT OR IGNORE INTO project_infos (name, git_id, status, date, slug) VALUES("{0}", "{1}", {2}, "{3}", "{4}")
+'''.format(name, git_id, status, datetime.now().strftime("%Y-%m-%d %H:%M"), slugify(name)))
+                self.connection.commit()
 
     def add_log(self, name, message):
         with self.connection:
