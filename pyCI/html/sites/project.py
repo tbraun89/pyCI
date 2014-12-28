@@ -30,11 +30,29 @@ def page(route):
     host = os.environ.get('HTTP_REFERER', 'http://{0}/'.format(os.environ.get('HTTP_HOST', '')))
 
     badge_info = '''
-<div class="info-section">
-  <img src="/project/{0}/badge.svg" /><br />
-  <div class="section">
-    <lable>Badge URL:</lable>
+<div class="section group">
+  <div class="col span_1_of_4"></div>
+  <div class="col span_2_of_4 center">
+    <img src="/project/{0}/badge.svg" />
+  </div>
+  <div class="col span_1_of_4"></div>
+</div>
+<div class="section group">
+  <div class="col span_1_of_4">
+    <label>Badge URL:</label>
     <input type="text" value="{1}project/{0}/badge.svg" />
+  </div>
+  <div class="col span_1_of_4">
+    <label>Markdown</label>
+    <input type="text" value="![pyCI Build Status]({1}project/{0}/badge.svg)" />
+  </div>
+  <div class="col span_1_of_4">
+    <label>Textile</label>
+    <input type="text" value="!{1}project/{0}/badge.svg(pyCI Build Status)" />
+  </div>
+  <div class="col span_1_of_4">
+    <label>AsciiDoc</label>
+    <input type="text" value="#image::{1}project/{0}/badge.svg["pyCI Build Status"]" />
   </div>
 </div>
 <hr />
