@@ -2,7 +2,7 @@
 title: pyCI - a minimal CI server
 email: tbraun@tnt-web-solutions.de
 description: A minimal CI server written in Python.
-url: "http://tbraun89.github.io/pyCI/" # the base hostname & protocol for your site
+baseurl: http://tbraun89.github.io/pyCI
 
 # Build settings
 markdown: kramdown

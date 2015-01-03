@@ -629,7 +629,7 @@ form {
   content: "/";
 }
 
-#main-content h2 {
+#main-content h2, .date {
   margin-bottom: 8px;
   font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
   font-size: 22px;
@@ -642,6 +642,10 @@ form {
   margin-left: -1.5em;
   content: "//";
   color: #9ddcff;
+}
+
+.date {
+  margin-left: -0.3em;
 }
 
 #main-content h3 {

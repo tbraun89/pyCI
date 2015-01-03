@@ -6,12 +6,14 @@
   <link rel="stylesheet" type="text/css" href="{{ "/css/stylesheet.css" | prepend: site.baseurl }}" media="screen">
   <link rel="stylesheet" type="text/css" href="{{ "/css/pygment_trac.css" | prepend: site.baseurl }}" media="screen">
   <link rel="stylesheet" type="text/css" href="{{ "/css/print.css" | prepend: site.baseurl }}" media="print">
-  <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
-  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}" />
+  <link rel="canonical" href="{{ page.baseurl | replace:'index.html','' | prepend: site.baseurl }}">
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl }}" />
 
   <!--[if lt IE 9]>
   <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="{{ "/js/main.js" | prepend: site.baseurl }}"></script>
 
   <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
   <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
