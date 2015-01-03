@@ -2,19 +2,17 @@
 layout: default
 ---
 
-<div class="home">
-  <h1>News</h1>
+<h1>News</h1>
 
-  {% for post in site.posts %}
-    <p>
-      <h2>
-        <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        <small>{{ post.date | date: "%b %-d, %Y" }}</small>
-      </h2>
-      <p>{{ post.excerpt }}</p>
-    </p>
-  {% endfor %}
+{% for post in site.posts %}
+  <p>
+    <h2>
+      <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+      <small>{{ post.date | date: "%b %-d, %Y" }}</small>
+    </h2>
+    <p>{{ post.excerpt }}</p>
+  </p>
+{% endfor %}
 
-  <hr />
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
-</div>
+<hr />
+<p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>

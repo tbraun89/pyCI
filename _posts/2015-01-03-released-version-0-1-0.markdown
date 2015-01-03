@@ -16,10 +16,3 @@ when you click on a project.
 * fixed add_project
 * fixed add_project
 * added the badge to the projects page + migration to store the slug of a project
-* updated README.md
-* added unittests for the badge helper
-* added badges helper that returns the svg element
-* updated README.md
-* updated README.md
-* added favicon
-* Updated README.md (added hack to display code on github after list)
