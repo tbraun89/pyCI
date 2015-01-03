@@ -905,3 +905,39 @@ nav ul li a {
 nav ul li a:hover {
   color: #fff;
 }
+
+.documentation-body section h2 a {
+  float: right;
+  font-size: 30px;
+}
+
+table.configuration td:first-child code {
+  padding: 0;
+  background-color: #fff;
+  border: none;
+  font-size: 8pt;
+}
+
+table.configuration th {
+  font-weight: bold;
+}
+
+table.configuration {
+  border: solid 1px #f2f2f2;
+  background-color: #fff;
+}
+
+table.configuration td:first-child {
+  width: 200px;
+  border-right: none;
+}
+
+table.configuration td:nth-child(2) {
+  border-left: none;
+}
+
+table.configuration td,
+table.configuration th {
+  text-align: left;
+  padding: 2px 5px;
+}

@@ -4,5 +4,207 @@ layout: default
 
 <h1>Documentation</h1>
 
-<pre><code>This section is under construction
-</code></pre>
+<section id="sec_navigation">
+    <h2>Navigation</h2>
+
+    <ol>
+        <li><a href="#sec_installation">Installation</a></li>
+        <li><a href="#sec_configuration">Configuration</a></li>
+        <li><a href="#sec_contributing">Contributing</a></li>
+    </ol>
+</section>
+
+<div class="documentation-body">
+    <section id="sec_installation">
+        <h2>1. Installation <a href="#sec_navigation">^</a></h2>
+
+        <h3>1.1 Requirements</h3>
+
+        <ul>
+            <li>Python 2.7.x</li>
+            <li>Python <code>daemon</code> library</li>
+            <li>Python <code>pysqlite</code> library</li>
+        </ul>
+
+        <pre><code>sudo apt-get install python2.7 python-daemon python-pysqlite2</code></pre>
+
+        <h3>1.2 pyCI service</h3>
+
+        <ul>
+            <li>Download the latest version of pyCI.</li>
+            <li>extract the archive and change to it's directory</li>
+            <li>run <code>sudo python setup.py install</code></li>
+            <li>
+                edit the <code>/etc/pycirc</code> file and add your projects (for more information visit the
+                configuration section)
+            </li>
+            <li>start the service with <code>sudo service pyCI start</code></li>
+        </ul>
+
+        <p>
+            The service will automatically start when rebooting your machine. The assets for the web interface
+            are copied to <code>/var/www/pyci</code> and owned by the user and group <code>www-data</code>.
+        </p>
+
+        <h3>1.3 Web Interface (Nginx + fcgiwrap)</h3>
+
+        Here is a default configuration for the web interface with nginx and fcgiwrap. Don't forget to change
+        the <code>SERVER_NAME</code> to your own.
+
+        <pre><code>server {
+    listen      80;
+    server_name SERVER_NAME;
+
+    location ~* ^.+\.(css|ico|js)$ {
+        root    /var/www/pyci;
+        expires 30d;
+    }
+
+    location / {
+        fastcgi_pass  unix:/var/run/fcgiwrap.socket;
+        fastcgi_param SCRIPT_FILENAME /usr/local/bin/pyci.cgi;
+        fastcgi_param PATH_INFO $uri;
+        fastcgi_param QUERY_STRING $args;
+    }
+}</code></pre>
+    </section>
+
+    <section id="sec_configuration">
+        <h2>2. Configuration <a href="#sec_navigation">^</a></h2>
+
+        <p>
+            To change the configuration update the <code>/etc/pycirc</code> file. An example will be added after
+            the first installation.
+        </p>
+
+        <h3>2.1 Global configuration options</h3>
+
+        <p>
+            The global configuration sections starts with the keyword <code>start_config</code>.
+        </p>
+
+        <table class="configuration">
+            <thead>
+                <tr>
+                    <th>Option</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>config.build_success</code></td>
+                    <td>
+                        A command that runs if all builds are successful. The command will be executed
+                        after a complete build run, also if there where no new builds.<br/>
+                        <b>You can use any command available on your commandline.</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>config.build_failed</code></td>
+                    <td>
+                        A command that runs if one ore more builds have failed. The command will be executed
+                        after a complete build run, also if there where no new builds.<br/>
+                        <b>You can use any command available on your commandline.</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>config.vcs_error</code></td>
+                    <td>
+                        A command that runs if one ore more builds can't downloaded from the Repository or
+                        if no repositories listed in the configuration file. The command will be executed
+                        after a complete build run, also if there where no new builds.<br/>
+                        <b>You can use any command available on your commandline.</b>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>2.2 Repository configuration options</h3>
+
+        <p>
+            A new repository section starts with the keyword <code>new_repo</code>.
+        </p>
+
+        <table class="configuration">
+            <thead>
+                <tr>
+                    <th>Option</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>repo.url</code></td>
+                    <td>
+                        The URL for to the remote Git repository. You must be able to clone
+                        the repository from your server.
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>repo.branch</code></td>
+                    <td>
+                        The Branch of your Git repository you want to checkout. If no branch is
+                        given the default the branch "master" is used as default branch.
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>repo.name</code></td>
+                    <td>
+                        A unique name for this repository. If you change this name, a new entry
+                        will be generated for this repository and you are no longer able to change
+                        the old one. <i>(This will be changed in a future versions that you can edit the
+                        name and delete old repositories.)</i>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>repo.step#</code></td>
+                    <td>
+                        This is one step of the command chain. <code>#</code> has to replaced with
+                        an integer number. All the steps can will be executed in the order of their
+                        number. If one step has an exit code other than <code>0</code> or writes to
+                        <code>stderr</code> the step will fail. <i>(This will be changed in a future
+                        version so you can configure the parameters for a step to fail or pass.)</i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>2.3 Example configuration file.</h3>
+        <pre><code>start_config
+config.build_success=delcom-usbled -g
+config.build_failed=delcom-usbled -r
+config.vcs_error=delcom-usbled -y
+
+new_repo
+repo.url=https://github.com/tbraun89/pyCI.git
+repo.branch=master
+repo.name=My pyCI - master Branch
+repo.step0=cd tests; python suite.py</code></pre>
+    </section>
+
+    <section id="sec_contributing">
+        <h2>3. Contributing <a href="#sec_navigation">^</a></h2>
+
+        <ol>
+            <li>Fork it (<a href="https://github.com/tbraun89/pyCI/fork">https://github.com/tbraun89/pyCI/fork</a>)</li>
+            <li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+            <li>Add your feature and don't forget the tests</li>
+            <li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+            <li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+            <li>Create a Pull Request</li>
+        </ol>
+
+        <p>
+            To run the test you just have to switch to the <code>tests</code> folder and run the
+            <code>suite.py</code> file.
+        </p>
+
+        <pre><code>cd tests
+python suite.py</code></pre>
+
+        <p>
+            If you find a bug and can't fix it, you can create an <a href="https://github.com/tbraun89/pyCI/issues/new">new Issue</a>
+            in the Bug Tracker. Pleas check if the bug ticket already exists or is marked as fixed for a future version.
+        </p>
+    </section>
+</div>

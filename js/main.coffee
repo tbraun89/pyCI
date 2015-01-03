@@ -19,3 +19,13 @@ $(document).ready ->
           tar_link = "https://github.com/tbraun89/pyCI/archive/#{version['tag_name']}.tar.gz"
           $('#downloads_list').append "<h2>pyCI #{version['tag_name']} <small><a href=\"#{zip_link}\">[.zip]</a> · <a href=\"#{tar_link}\">[.tar.gz]</a></small></h2>"
           $('#downloads_list').append "<p>#{converter.makeHtml(version['body'])}</p>"
+
+  $('a[href*=#]').click (event) ->
+    event.preventDefault()
+    target = $(this).attr 'href'
+
+    $('html,body').animate
+      scrollTop: $(target).offset().top
+    , 500
+
+    location.hash = target
