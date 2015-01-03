@@ -22,13 +22,14 @@ sys.path.insert(0, os.path.abspath('..'))
 
 
 from tests.pyCI.html.helper import test_badges
-from tests.pyCI.util import test_slug, test_config
+from tests.pyCI.util import test_slug, test_config, test_log
 
 
 all_tests = unittest.TestSuite([
     test_badges.suite(),
     test_slug.suite(),
     test_config.suite(),
+    test_log.suite(),
 ])
 
 
