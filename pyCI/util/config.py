@@ -23,12 +23,12 @@ def tokenize_config(config_file):
         config = config_file.read()
 
     lexer = shlex.shlex(config)
-    lexer.whitespace = ['=', '\n', '\t', '\r', '\r\n']
+    lexer.whitespace = ['=', '\n', '\t', '\r', '\r\n', ' ']
     lexer.whitespace_split = True
 
     config = []
 
     for token in lexer:
-        config.append(token)
+        config.append(token.strip().strip('"').strip('\''))
 
     return config

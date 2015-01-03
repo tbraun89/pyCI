@@ -16,25 +16,31 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import unittest
-import sys
-import os
-sys.path.insert(0, os.path.abspath('..'))
+
+from pyCI.util import tokenize_config
 
 
-from tests.pyCI.html.helper import test_badges
-from tests.pyCI.util import test_slug, test_config
+class TestTokenizeConfig(unittest.TestCase):
+    def runTest(self):
+        tokens = tokenize_config('data/tokenize_config_0.txt')
+
+        self.assertItemsEqual(tokens, [
+            'command',
+            'property',
+            'value0',
+            'category.property',
+            'value1',
+            'property',
+            'value1',
+            'new_command',
+            'value_string',
+            'This is a String',
+            'property_after_many_lines',
+            'value2'
+        ])
 
 
-all_tests = unittest.TestSuite([
-    test_badges.suite(),
-    test_slug.suite(),
-    test_config.suite(),
-])
-
-
-if __name__ == '__main__':
-    runner = unittest.TextTestRunner(verbosity=2, stream=sys.stdout)
-    result = runner.run(all_tests)
-
-    if len(result.errors) > 0 or len(result.failures) > 0:
-        sys.exit(-1)
+def suite():
+    my_suite = unittest.TestSuite()
+    my_suite.addTest(TestTokenizeConfig())
+    return my_suite

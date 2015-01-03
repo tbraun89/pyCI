@@ -1,0 +1,17 @@
+command
+property=value0
+category.property=value1
+property=value1 # Comment
+# Full line comment
+new_command
+value_string='This is a String'
+
+
+
+
+
+
+
+
+
+property_after_many_lines=value2
