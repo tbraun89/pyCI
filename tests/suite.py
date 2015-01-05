@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.abspath('..'))
 
 
 from tests.pyCI.html.helper import test_badges
-from tests.pyCI.util import test_slug, test_config, test_log
+from tests.pyCI.util import test_slug, test_config, test_log, test_db
 
 
 all_tests = unittest.TestSuite([
@@ -30,6 +30,7 @@ all_tests = unittest.TestSuite([
     test_slug.suite(),
     test_config.suite(),
     test_log.suite(),
+    test_db.suite(),
 ])
 
 
